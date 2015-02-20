@@ -55,6 +55,7 @@ func getPossibleWords(input string) {
 
 
     str := ""
+    var permutationCounter []int
     var fingersUsed []int
 	for _, s := range input {
 		for i, f := range fingers {
@@ -63,16 +64,21 @@ func getPossibleWords(input string) {
                 printFinger(i)
                 str += string(s)
                 fingersUsed = append(fingersUsed, i)
+                permutationCounter = append(permutationCounter, 0)
 			}
 		}
 	}
-    fmt.Println(str)
-    fmt.Println(fingersUsed)
+    fmt.Println("fingersUsed:", fingersUsed)
+    fmt.Println("permutationCounter:", permutationCounter)
+    var permutations [][]int
 
     //TODO make this separate function
-    for i, d := range fingers {
-        
+    for i, d := range fingersUsed {
+        fmt.Println(i, d, fingers[d], len(fingers[d]))
     }
+
+
+    fmt.Println("permutations:", permutations)
 }
 
 func main() {
