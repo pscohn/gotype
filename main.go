@@ -35,10 +35,25 @@ func printFinger(i int) {
         finger = "right ring"
     case 7:
         finger = "right pinky"
-    }
+}
     fmt.Println(finger)
 }
 
+
+func perms(input [][]string) []string {
+    if len(input) == 0 {
+        return []string{""}
+    }
+
+    var result []string
+    strings := perms(input[1:])
+    for _, c := range input[0] {
+        for _, s := range strings {
+            result = append(result, c + s)
+        }
+    }
+    return result
+}
 
 func getPossibleWords(input string) {
 	leftPinky := []string{"a", "q", "z"}
@@ -53,31 +68,24 @@ func getPossibleWords(input string) {
 	fingers := [][]string{leftPinky, leftRing, leftMiddle, leftIndex,
 		rightIndex, rightMiddle, rightRing, rightPinky}
 
-
     str := ""
-    var permutationCounter []int
     var fingersUsed []int
 	for _, s := range input {
 		for i, f := range fingers {
 			if in(string(s), f) {
-				fmt.Println(s, f)
-                printFinger(i)
                 str += string(s)
                 fingersUsed = append(fingersUsed, i)
-                permutationCounter = append(permutationCounter, 0)
 			}
 		}
 	}
-    fmt.Println("fingersUsed:", fingersUsed)
-    fmt.Println("permutationCounter:", permutationCounter)
-    var permutations [][]int
 
-    //TODO make this separate function
-    for i, d := range fingersUsed {
-        fmt.Println(i, d, fingers[d], len(fingers[d]))
+    var list [][]string
+    for _, d := range fingersUsed {
+        list = append(list, fingers[d])
     }
-
-
+    
+    var permutations []string
+    permutations = perms(list)
     fmt.Println("permutations:", permutations)
 }
 
