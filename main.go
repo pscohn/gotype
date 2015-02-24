@@ -12,14 +12,14 @@ var (
 	letters string = "ETAION SHRDLU"
 	words   []string
 
-	leftPinky = []string{"a", "q", "z"}
-	leftRing = []string{"s", "w", "x"}
-	leftMiddle = []string{"e", "d", "c"}
-	leftIndex = []string{"f", "t", "g", "v", "b", "r"}
-	rightIndex = []string{"h", "y", "n", "j", "u", "m"}
+	leftPinky   = []string{"a", "q", "z"}
+	leftRing    = []string{"s", "w", "x"}
+	leftMiddle  = []string{"e", "d", "c"}
+	leftIndex   = []string{"f", "t", "g", "v", "b", "r"}
+	rightIndex  = []string{"h", "y", "n", "j", "u", "m"}
 	rightMiddle = []string{"i", "k"}
-	rightRing = []string{"o", "l"}
-	rightPinky = []string{"p"}
+	rightRing   = []string{"o", "l"}
+	rightPinky  = []string{"p"}
 
 	fingers = [][]string{leftPinky, leftRing, leftMiddle, leftIndex,
 		rightIndex, rightMiddle, rightRing, rightPinky}
@@ -69,14 +69,13 @@ func perms(input [][]string) []string {
 	return result
 }
 
-
 func hasVowel(word string) bool {
-    if hasChar("a", word) || hasChar("e", word) || 
-        hasChar("i", word) || hasChar("o", word) ||
-            hasChar("u", word) || hasChar("y", word) {
-        return true
-    }
-    return false
+	if hasChar("a", word) || hasChar("e", word) ||
+		hasChar("i", word) || hasChar("o", word) ||
+		hasChar("u", word) || hasChar("y", word) {
+		return true
+	}
+	return false
 }
 
 func getPossibleWords(input string) []string {
@@ -96,13 +95,13 @@ func getPossibleWords(input string) []string {
 	}
 
 	permutations := perms(list)
-    var purged []string
-    for _, word := range permutations {
-        if hasVowel(word) {
-            purged = append(purged, word)
-        }
-    }
-    return purged
+	var purged []string
+	for _, word := range permutations {
+		if hasVowel(word) {
+			purged = append(purged, word)
+		}
+	}
+	return purged
 }
 
 func max(arr []int) int {
@@ -139,8 +138,8 @@ func findBestWord(permutations []string) string {
 func main() {
 	contents, err := ioutil.ReadFile("./dict.txt")
 	check(err)
-    s := string(contents)
-//    fmt.Println(s)
+	s := string(contents)
+	//    fmt.Println(s)
 	words = strings.Fields(s)
 
 	for {
