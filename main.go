@@ -17,7 +17,7 @@ var (
 	leftMiddle = []string{"e", "d", "c"}
 	leftIndex = []string{"f", "t", "g", "v", "b", "r"}
 	rightIndex = []string{"h", "y", "n", "j", "u", "m"}
-	rightMiddle = []string{"i", "k", ","}
+	rightMiddle = []string{"i", "k"}
 	rightRing = []string{"o", "l"}
 	rightPinky = []string{"p"}
 
@@ -52,29 +52,6 @@ func hasChar(char string, s string) bool {
 		}
 	}
 	return false
-}
-
-func printFinger(i int) {
-	var finger string
-	switch i {
-	case 0:
-		finger = "left pinky"
-	case 1:
-		finger = "left ring"
-	case 2:
-		finger = "left middle"
-	case 3:
-		finger = "left index"
-	case 4:
-		finger = "right index"
-	case 5:
-		finger = "right middle"
-	case 6:
-		finger = "right ring"
-	case 7:
-		finger = "right pinky"
-	}
-	fmt.Println(finger)
 }
 
 func perms(input [][]string) []string {
