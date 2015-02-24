@@ -135,11 +135,11 @@ func findBestWord(permutations []string) string {
 }
 
 func main() {
-	contents, err := ioutil.ReadFile("./small.txt")
+	contents, err := ioutil.ReadFile("./dict.txt")
 	check(err)
     s := string(contents)
-    fmt.Println(s)
-	words = strings.Fields(string(contents))
+//    fmt.Println(s)
+	words = strings.Fields(s)
 
 	for {
 		fmt.Printf("-> ")
