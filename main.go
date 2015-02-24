@@ -11,6 +11,18 @@ import (
 var (
 	letters string = "ETAION SHRDLU"
 	words   []string
+
+	leftPinky = []string{"a", "q", "z"}
+	leftRing = []string{"s", "w", "x"}
+	leftMiddle = []string{"e", "d", "c"}
+	leftIndex = []string{"f", "t", "g", "v", "b", "r"}
+	rightIndex = []string{"h", "y", "n", "j", "u", "m"}
+	rightMiddle = []string{"i", "k", ","}
+	rightRing = []string{"o", "l"}
+	rightPinky = []string{"p"}
+
+	fingers = [][]string{leftPinky, leftRing, leftMiddle, leftIndex,
+		rightIndex, rightMiddle, rightRing, rightPinky}
 )
 
 type Finger struct {
@@ -27,6 +39,15 @@ func check(e error) {
 func in(s string, a []string) bool {
 	for _, r := range a {
 		if s == string(r) {
+			return true
+		}
+	}
+	return false
+}
+
+func hasChar(char string, s string) bool {
+	for _, r := range s {
+		if char == string(r) {
 			return true
 		}
 	}
@@ -71,25 +92,22 @@ func perms(input [][]string) []string {
 	return result
 }
 
+
+func hasVowel(word string) bool {
+    if hasChar("a", word) || hasChar("e", word) || 
+        hasChar("i", word) || hasChar("o", word) ||
+            hasChar("u", word) || hasChar("y", word) {
+        return true
+    }
+    return false
+}
+
 func getPossibleWords(input string) []string {
-	leftPinky := []string{"a", "q", "z"}
-	leftRing := []string{"s", "w", "x"}
-	leftMiddle := []string{"e", "d", "c"}
-	leftIndex := []string{"f", "t", "g", "v", "b", "r"}
-	rightIndex := []string{"h", "y", "n", "j", "u", "m"}
-	rightMiddle := []string{"i", "k", ","}
-	rightRing := []string{"o", "l", "."}
-	rightPinky := []string{"p", ";", "/"}
 
-	fingers := [][]string{leftPinky, leftRing, leftMiddle, leftIndex,
-		rightIndex, rightMiddle, rightRing, rightPinky}
-
-	str := ""
 	var fingersUsed []int
 	for _, s := range input {
 		for i, f := range fingers {
 			if in(string(s), f) {
-				str += string(s)
 				fingersUsed = append(fingersUsed, i)
 			}
 		}
@@ -100,7 +118,14 @@ func getPossibleWords(input string) []string {
 		list = append(list, fingers[d])
 	}
 
-	return perms(list)
+	permutations := perms(list)
+    var purged []string
+    for _, word := range permutations {
+        if hasVowel(word) {
+            purged = append(purged, word)
+        }
+    }
+    return purged
 }
 
 func max(arr []int) int {
