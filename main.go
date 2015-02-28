@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
+	"runtime"
 	"strings"
 )
 
@@ -135,13 +137,16 @@ func findBestWord(permutations []string) string {
 	return permutations[max(count)]
 }
 
-func main() {
-	contents, err := ioutil.ReadFile("./dict.txt")
+func init() {
+	_, filename, _, _ := runtime.Caller(1)
+	dictPath := path.Join(path.Dir(filename), "dict.txt")
+	contents, err := ioutil.ReadFile(dictPath)
 	check(err)
-	s := string(contents)
-	//    fmt.Println(s)
-	words = strings.Fields(s)
 
+	words = strings.Fields(string(contents))
+}
+
+func main() {
 	for {
 		fmt.Printf("-> ")
 		in := bufio.NewReader(os.Stdin)
