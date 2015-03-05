@@ -80,7 +80,7 @@ func hasVowel(word string) bool {
 	return false
 }
 
-func getPossibleWords(input string) []string {
+func getPermutations(input string) []string {
 
 	var fingersUsed []int
 	for _, s := range input {
@@ -118,23 +118,31 @@ func max(arr []int) int {
 	return index
 }
 
-func findBestWord(permutations []string) string {
-	// alternate approach:
-	// read file contents
-	// get all words
-	// check count of each permutation in words
-	// return word with highest count
+func findPossibleWords(permutations []string, original string) string {
 
-	count := make([]int, len(permutations))
-
-	for i, word := range permutations {
+	var allPossibles []string
+	for _, word := range permutations {
 		for _, w := range m[strings.ToLower(string(word[0]))][len(word)] {
 			if strings.ToLower(word) == strings.ToLower(w) {
-				count[i]++
+				allPossibles = append(allPossibles, word)
 			}
 		}
 	}
-	return permutations[max(count)]
+
+	if len(allPossibles) == 0 {
+		return original
+	} else if len(allPossibles) == 1 {
+		return allPossibles[0]
+	}
+	var optionString string
+	for i, w := range allPossibles {
+		if i == 0 {
+			optionString += w
+		} else {
+			optionString += "|" + w
+		}
+	}
+	return "(" + optionString + ")"
 }
 
 func mapDictionary(path string) {
@@ -167,8 +175,8 @@ func main() {
 		input, _ := in.ReadString('\n')
 		split := strings.Split(input, " ")
 		for _, sp := range split {
-			permutations := getPossibleWords(sp)
-			word := findBestWord(permutations)
+			permutations := getPermutations(sp)
+			word := findPossibleWords(permutations, sp)
 			fmt.Printf("%s ", word)
 		}
 		fmt.Printf("\n")
