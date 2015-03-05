@@ -13,6 +13,7 @@ import (
 var (
 	letters string = "ETAION SHRDLU"
 	words   []string
+	m       map[string]map[int][]string
 
 	leftPinky   = []string{"a", "q", "z"}
 	leftRing    = []string{"s", "w", "x"}
@@ -137,13 +138,27 @@ func findBestWord(permutations []string) string {
 	return permutations[max(count)]
 }
 
+func mapDictionary(path string) {
+	contents, err := ioutil.ReadFile(path)
+	check(err)
+	words = strings.Fields(string(contents))
+	m = make(map[string]map[int][]string)
+	for _, word := range words {
+		key := strings.ToLower(string(word[0]))
+		if m[key] == nil {
+			m[key] = make(map[int][]string)
+		}
+		if m[key][len(word)] == nil {
+			m[key][len(word)] = make([]string, 100)
+		}
+		m[key][len(word)] = append(m[key][len(word)], word)
+	}
+}
+
 func init() {
 	_, filename, _, _ := runtime.Caller(1)
 	dictPath := path.Join(path.Dir(filename), "dict.txt")
-	contents, err := ioutil.ReadFile(dictPath)
-	check(err)
-
-	words = strings.Fields(string(contents))
+	go mapDictionary(dictPath)
 }
 
 func main() {
