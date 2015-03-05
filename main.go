@@ -12,7 +12,6 @@ import (
 
 var (
 	letters string = "ETAION SHRDLU"
-	words   []string
 	m       map[string]map[int][]string
 
 	leftPinky   = []string{"a", "q", "z"}
@@ -129,7 +128,7 @@ func findBestWord(permutations []string) string {
 	count := make([]int, len(permutations))
 
 	for i, word := range permutations {
-		for _, w := range words {
+		for _, w := range m[strings.ToLower(string(word[0]))][len(word)] {
 			if strings.ToLower(word) == strings.ToLower(w) {
 				count[i]++
 			}
@@ -141,7 +140,7 @@ func findBestWord(permutations []string) string {
 func mapDictionary(path string) {
 	contents, err := ioutil.ReadFile(path)
 	check(err)
-	words = strings.Fields(string(contents))
+	words := strings.Fields(string(contents))
 	m = make(map[string]map[int][]string)
 	for _, word := range words {
 		key := strings.ToLower(string(word[0]))
